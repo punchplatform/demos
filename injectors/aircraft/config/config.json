@@ -1,0 +1,15 @@
+{
+    "use_case" : {
+        "aircraft" : {
+            "payload": [
+                {
+                    "aircraft_number": 10,
+                    "max_cycle_number": 100,
+                    "cycle_schedule_s": 3600,
+                    "model_path": "/home/pierre/pp/pp-punch/packagings/punch-standalone/target/punch-standalone-6.2.0-SNAPSHOT-linux/external/punch-mlflow-app-6.2.0-SNAPSHOT/logs/artifacts/0/000ff617c6b54f8e825101e7e24b06a3/artifacts/RandomForestRegressorPipeline"
+                }
+            ],
+            "output_logs" : "/home/pierre/dev/projects/demos/injectors/aircraft/output/data.log"
+        }
+    }
+}
