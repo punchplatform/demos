@@ -1,0 +1,18 @@
+click>=7.1.2
+appdirs
+toml>=0.10.1
+typed-ast>=1.4.0
+regex>=2020.1.8
+pathspec<1,>=0.6
+typing_extensions>=3.7.4
+mypy_extensions>=0.4.3
+
+[:python_version < "3.7"]
+dataclasses>=0.6
+
+[colorama]
+colorama>=0.4.3
+
+[d]
+aiohttp>=3.3.2
+aiohttp-cors
