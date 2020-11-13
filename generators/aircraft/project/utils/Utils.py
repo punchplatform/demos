@@ -58,12 +58,15 @@ def generate_linear_aircraft_sensor_values(
             current_record = copy.deepcopy(meta)
             current_record["aircraft"] = {}
             current_record["aircraft"]["id"] = str(current_aircraft_id)
-            current_record["@timestamp"] = str(timestamp)
+            current_record["@timestamp"] = timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z")
             current_record["cycle"]["number"] = cycle
             current_record["sensor"] = sensor
             current_record["life"] = life
             current_record["cycle"]["left"] = cycle_left
-            current_record["death_timestamp"] = str(death_timestamp)
+            current_record["death_timestamp"] = death_timestamp.strftime(
+                "%Y-%m-%dT%H:%M:%S.000Z"
+            )
+
             to_return.append(current_record)
 
     return to_return
