@@ -13,3 +13,6 @@
 ### 1) Radar Monitoring
 ### 2) Application Usage Monitoring
 ### 3) Aircraft Predictive Maintenance
+![alt text](demos/resources/AIRCRAFT_PREDICTIVE_MAINTENANCE.webm)
+
+
