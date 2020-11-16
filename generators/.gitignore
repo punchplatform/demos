@@ -1,6 +1,0 @@
-/aicraft/.venv
-aircraft/project/__pycache__
-aircraft/project/*/__pycache__
-aircraft/dist
-aircraft/config
-aircraft/output
