@@ -1,5 +1,5 @@
 generators/*/.venv/*
-generators/aircraft/project/__pycache__
-generators/aircraft/project/*/__pycache__
+generators/*/project/__pycache__
+generators/*/project/*/__pycache__
 generators/*/dist/*
-generators/aircraft/output/*
+generators/*/output/*

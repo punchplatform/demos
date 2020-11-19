@@ -5,12 +5,13 @@
 ## Uses cases:
 > The following list describes the final uses cases provided by this repo.
 
-1) Airspace Monitoring
-2) Application Usage Monitoring
-3) Aircraft Predictive Maintenance
+1) Airspace Monitoring : Airspace
+2) Application Usage Monitoring : Usage
+3) Aircraft Predictive Maintenance : Aircraft
 
 
 ### 1) Airspace Monitoring
+![alt text](resources/airspace.gif)
 ### 2) Application Usage Monitoring
 ### 3) Aircraft Predictive Maintenance
 ![alt text](resources/aircraft_maintenance_predictive.gif)
