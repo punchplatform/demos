@@ -1,0 +1,50 @@
+###################### Filebeat Configuration Example #########################
+
+# ============================== Filebeat inputs ===============================
+
+filebeat.inputs:
+
+- type: log
+  enabled: true
+  json.keys_under_root: true
+
+  paths:
+    - /home/pierre/dev/projects/demos/generators/tool/output/aircraft_data.log
+  fields:
+    type: "aircraft-report" 
+
+- type: log
+  json.keys_under_root: true
+
+  enabled: true
+  paths:
+    - /home/pierre/dev/projects/demos/generators/tool/output/airspace_data.log
+  fields:
+    type: "airspace-report" 
+
+- type: log
+  json.keys_under_root: true
+
+  enabled: true
+  paths:
+    - /home/pierre/dev/projects/demos/generators/tool/output/radar_data.log
+  fields:
+    type: "radar-report" 
+
+# ================================== Outputs ===================================
+
+# Configure what output to use when sending the data collected by the beat.
+
+output.kafka:
+  # Boolean flag to enable or disable the output module.
+  enabled: true
+
+  hosts: ["localhost:9092"]
+
+  topic: demo-logs
+
+  worker: 1
+  max_retries: 3
+  backoff.init: 1s
+  bulk_max_size: 2048
+
