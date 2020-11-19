@@ -24,5 +24,7 @@ configuration = Configuration.getConfiguration().getConf()
 for payload in configuration["use_case"]:
     output_file_path = configuration["use_case"][payload]["output_logs"]
     generator = GeneratorFactory.GeneratorBuild(payload)
-    generator.generateDataset(configuration["use_case"][payload]["payload"], output_file_path)
-    exit(0)
+    generator.generateDataset(
+        configuration["use_case"][payload]["payload"], output_file_path
+    )
+exit(0)

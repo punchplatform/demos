@@ -7,6 +7,7 @@ import math
 from mlflow.sklearn import load_model
 import sklearn
 
+
 def write_array_json_to_file(input_data: list(), output_path: str):
     with open(output_path, "a") as file:
         for record in input_data:
@@ -23,8 +24,8 @@ def load_json_file(path):
 
 
 def generate_random_radar_plots(sample_size_by_radar, radar_number, frequency_s):
-    max_distance = ((1000 - 10) * np.random.random(radar_number) + 10)
-    max_altitude = ((10000 - 0) * np.random.random(radar_number) + 0)
+    max_distance = (1000 - 10) * np.random.random(radar_number) + 10
+    max_altitude = (10000 - 0) * np.random.random(radar_number) + 0
 
     result = []
     for radar in range(0, radar_number):
@@ -45,15 +46,27 @@ def generate_random_radar_plots(sample_size_by_radar, radar_number, frequency_s)
             for i in range(0, sample_size_by_radar)
         ]
         radar_id = uuid.uuid1()
-        for degree, distance, altitude, timestamp in zip(degrees, distances, altitudes, all_timestamp):
+        for degree, distance, altitude, timestamp in zip(
+            degrees, distances, altitudes, all_timestamp
+        ):
             plots_id = uuid.uuid1()
 
             result.append(
                 {
-                    "coord": {"degree": degree, "distance": distance, "altitude" : altitude},
+                    "coord": {
+                        "degree": degree,
+                        "distance": distance,
+                        "altitude": altitude,
+                    },
                     "plots": {"id": str(plots_id)},
-                    "radar": {"id": str(radar_id), "coverage": {"distance" : current_max_radar_distance, "altitude" : current_max_radar_altitude}},
-                    "@timestamp" : str(timestamp)
+                    "radar": {
+                        "id": str(radar_id),
+                        "coverage": {
+                            "distance": current_max_radar_distance,
+                            "altitude": current_max_radar_altitude,
+                        },
+                    },
+                    "@timestamp": str(timestamp),
                 }
             )
     return result
@@ -136,6 +149,7 @@ def generate_random_shape_points(
             x_start, x_end, y_start, y_end, duration_h, frequency_s, aeronef_ID
         )
     return tracks
+
 
 def generate_linear_aircraft_sensor_values(
     aircraft_number: int, max_cycle_number: int, cycle_schedule_s: int, model_path: str

@@ -5,9 +5,9 @@ setuptools.setup(
     version="1.0.0",
     keywords=["punch"],
     install_requires=[
-    "numpy==1.19.4"
+    "numpy==1.19.4",
+    "mlflow==1.12.1",
     "scikit-learn==0.23.2"
-    "mlflow==1.12.0",
     ],    
     packages=setuptools.find_packages(),
 )

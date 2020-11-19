@@ -9,7 +9,7 @@
                     "model_path": "/home/pierre/pp/pp-punch/packagings/punch-standalone/target/punch-standalone-6.2.0-SNAPSHOT-linux/external/punch-mlflow-app-6.2.0-SNAPSHOT/logs/artifacts/0/000ff617c6b54f8e825101e7e24b06a3/artifacts/RandomForestRegressorPipeline"
                 }
             ],
-            "output_logs" : "/home/pierre/dev/projects/demos/generators/airspace/output/aircraft_data.log"
+            "output_logs" : "/home/pierre/dev/projects/demos/generators/tool/output/aircraft_data.log"
         },
         "airspace" : {
             "payload": [
@@ -54,7 +54,7 @@
                     "shape": "curvy"
                 }
             ],
-            "output_logs" : "/home/pierre/dev/projects/demos/generators/airspace/output/airspace_data.log"
+            "output_logs" : "/home/pierre/dev/projects/demos/generators/tool/output/airspace_data.log"
         },
         "radar" : {
             "payload": [
@@ -64,7 +64,7 @@
                     "frequency_s" : 60
                 }
             ],
-            "output_logs" : "/home/pierre/dev/projects/demos/generators/airspace/output/radar_data.log"
+            "output_logs" : "/home/pierre/dev/projects/demos/generators/tool/output/radar_data.log"
         }
     }
 }

@@ -5,7 +5,6 @@ from project.generator.Radar import Radar
 
 
 class GeneratorFactory:
-
     @staticmethod
     def GeneratorBuild(generator_type: str) -> GeneratorI:
         if generator_type == "airspace":
