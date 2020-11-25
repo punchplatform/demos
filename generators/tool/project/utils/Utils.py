@@ -172,26 +172,9 @@ def generate_linear_aircraft_sensor_values(
         ]
         all_cycles = [i for i in range(1, current_cycle_number + 1)]
         all_sensor_values = np.linspace(0, 1.0, current_cycle_number)
-        all_sensor_life_percent = regression_best_model.predict(
-            all_sensor_values.reshape(-1, 1)
-        ).tolist()
-        all_death_counter = [
-            int((all_cycles[i] / all_sensor_life_percent[i]) - all_cycles[i])
-            for i in range(0, current_cycle_number)
-        ]
-        all_predicted_death_timestamp = [
-            start_timestamp
-            + datetime.timedelta(seconds=(cycle_left * cycle_schedule_s))
-            for cycle_left in all_death_counter
-        ]
 
-        for timestamp, cycle, sensor, life, cycle_left, death_timestamp in zip(
-            all_timestamp,
-            all_cycles,
-            all_sensor_values,
-            all_sensor_life_percent,
-            all_death_counter,
-            all_predicted_death_timestamp,
+        for timestamp, cycle, sensor in zip(
+            all_timestamp, all_cycles, all_sensor_values
         ):
             current_record = copy.deepcopy(meta)
             current_record["aircraft"] = {}
@@ -199,11 +182,6 @@ def generate_linear_aircraft_sensor_values(
             current_record["@timestamp"] = timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z")
             current_record["cycle"]["number"] = cycle
             current_record["sensor"] = sensor
-            current_record["life"] = life
-            current_record["cycle"]["left"] = cycle_left
-            current_record["death_timestamp"] = death_timestamp.strftime(
-                "%Y-%m-%dT%H:%M:%S.000Z"
-            )
 
             to_return.append(current_record)
         return to_return

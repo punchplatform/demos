@@ -11,7 +11,7 @@ filebeat.inputs:
   paths:
     - /home/pierre/dev/projects/demos/generators/tool/output/aircraft_data.log
   fields:
-    type: "aircraft-report" 
+    type: "source-aircraft-report" 
 
 - type: log
   json.keys_under_root: true
@@ -41,7 +41,7 @@ output.kafka:
 
   hosts: ["localhost:9092"]
 
-  topic: demo-logs
+  topic: '%{[fields][type]}'
 
   worker: 1
   max_retries: 3
