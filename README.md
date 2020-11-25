@@ -7,12 +7,18 @@
 
 1) Airspace Monitoring : Airspace
 2) Application Usage Monitoring : Usage
+
+**IN PROGRESS**
+
 3) Aircraft Predictive Maintenance : Aircraft
 
 
 ### 1) Airspace Monitoring
 ![alt text](resources/airspace.gif)
 ### 2) Application Usage Monitoring
+
+**IN PROGRESS**
+
 ### 3) Aircraft Predictive Maintenance
 ![alt text](resources/aircraft_maintenance_predictive.gif)
 
