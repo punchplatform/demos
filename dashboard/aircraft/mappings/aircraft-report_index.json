@@ -1,0 +1,85 @@
+{
+  "aircraft-report--2020.11.26": {
+    "aliases": {},
+    "mappings": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "aircraft": {
+          "properties": {
+            "id": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        },
+        "cycle": {
+          "properties": {
+            "number": {
+              "type": "long"
+            },
+            "schedule": {
+              "type": "float"
+            }
+          }
+        },
+        "death_timestamp": {
+          "type": "date"
+        },
+        "id": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "life": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "sensor": {
+          "type": "float"
+        }
+      }
+    },
+    "settings": {
+      "index": {
+        "mapping": {
+          "total_fields": {
+            "limit": "10000"
+          }
+        },
+        "refresh_interval": "5s",
+        "number_of_shards": "1",
+        "provided_name": "aircraft-report--2020.11.26",
+        "query": {
+          "default_field": "_type"
+        },
+        "creation_date": "1606322671636",
+        "unassigned": {
+          "node_left": {
+            "delayed_timeout": "5m"
+          }
+        },
+        "number_of_replicas": "0",
+        "uuid": "GCyoOy7XR3SL2LFRTKvVDQ",
+        "version": {
+          "created": "7080099"
+        }
+      }
+    }
+  }
+}
