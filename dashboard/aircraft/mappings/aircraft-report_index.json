@@ -1,5 +1,5 @@
 {
-  "aircraft-report--2020.11.26": {
+  "aircraft-report-*": {
     "aliases": {},
     "mappings": {
       "properties": {
