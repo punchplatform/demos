@@ -1,0 +1,28 @@
+{
+  "stop_by_tenant": true,
+  "version": "6.1",
+  "start_by_tenant": true,
+  "applications": [
+    {
+      "args": [
+        "start",
+        "--plan",
+        "plan.hjson",
+	"--template",
+	"template.hjson",
+        "--runtime", "pyspark",
+	"--verbose"
+      ],
+      "cluster": "local",
+      "shiva_runner_tags": [
+        "local"
+      ],
+        "resources": [
+		"plan.hjson", "template.hjson"
+        ],
+      "name": "aircraft-demo-prediction-pipeline",
+      "runtime": "shiva",
+      "command": "planctl"
+    }
+  ]
+}

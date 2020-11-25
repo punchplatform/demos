@@ -1,0 +1,140 @@
+{
+	version: "6.0"
+	tenant:  demo
+	runtime: pyspark
+
+  dag: [
+        {
+            type: elastic_batch_input
+            component: input
+            settings: {
+                index: "source-aircraft-report-*"
+                query:
+                {
+                    size: 0
+                    query:
+                    {
+                        bool : {
+                            must : [
+                                {exists : {
+                                            field : sensor 
+                                        } 
+                                }
+                            ]
+                        }
+                    }
+                }
+
+                nodes:  ["localhost"]
+                elastic_settings : {
+                    es.net.http.auth.user : ""
+                    es.net.http.auth.pass : ""
+                }
+                port : 9200
+                output_columns: [
+                    {
+                        type: double
+                        field: sensor
+                        alias: sensor
+                    }
+                    {
+                        type: integer
+                        field: cycle.number
+                        alias: cycle.number
+                    }
+                    {
+                        type: double
+                        field: cycle.schedule
+                        alias: cycle.schedule
+                    }
+                    {
+                        type: string
+                        field: aircraft.id
+                        alias: aircraft.id
+                    }
+                    {
+                        type: string
+                        field: @timestamp
+                        alias: @timestamp
+                    }
+                    {
+                        type: string
+                        field: _id
+                        alias: _id
+                    }                                                                                                    
+                ]
+            }
+            publish: [
+                { 
+                    stream: data
+                }
+            ]
+        }
+    {
+        type: sql
+        component: sql
+        settings: {
+            statement_list: [
+                    {
+		    	output_table_name: prediction
+                    	statement: SELECT prediction(input_data.sensor) as life, input_data.* FROM input_data 
+        	    },
+                    {
+		    	output_table_name: decoration_gen1
+                    	statement: SELECT prediction.*, ((`cycle.number` / life) - `cycle.number`) as cycle_left FROM prediction 
+        	    },
+                    {
+		    	output_table_name: decoration_gen2
+                    	statement: SELECT decoration_gen1.*, to_timestamp(CAST(to_unix_timestamp(`@timestamp`, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'') + `cycle_left` * `cycle.schedule` AS LONG)) as epoch_death FROM decoration_gen1 
+        	    },
+                {
+		    	output_table_name: decoration_gen3
+                    	statement: SELECT decoration_gen2.*, date_format(decoration_gen2.epoch_death, "yyyy-MM-dd\'T\'HH:mm:ss.SSSS\'Z\'") as death_timestamp FROM decoration_gen2
+        	    },
+                {
+		    	output_table_name: final_output
+                    	statement: SELECT decoration_gen3.life, decoration_gen3.death_timestamp, uuid() as id, decoration_gen3.sensor, named_struct("number", decoration_gen3.`cycle.number`, "schedule", decoration_gen3.`cycle.schedule`) as cycle, named_struct("id", `aircraft.id`) as aircraft, `@timestamp` FROM decoration_gen3
+        	    }                                       
+
+	    ]
+	}
+        subscribe: [
+            {
+                component: input
+                stream: data
+            }
+        ]
+        publish: [
+            { 
+                stream: final_output
+            }
+        ]
+        
+    }      
+    {
+      type: elastic_batch_output
+      component: output
+      settings:
+      {
+        index: aircraft-report
+        es_cluster: es_search
+        output_mode: append
+      }
+      subscribe:
+      [
+        {
+          component: sql
+          stream: final_output
+        }
+      ]
+    }       
+  ]
+	settings: {
+		spark.additional.pex: mlflow_udf.pex
+		spark.pre_punchline_execution: nodes.mlflow_udf.udf_loading.mlflow_model_loading_pre_execution.MlflowModelLoadingPreExecution
+		spark.punch.mlflow.model.type: classification
+		spark.punch.mlflow.model.uri: /home/pierre/dev/projects/demos/forwarding/aircraft/ai_pipeline/RandomForestRegressorPipeline
+		spark.executorEnv.ARROW_PRE_0_15_IPC_FORMAT: 1
+
+	}
+}

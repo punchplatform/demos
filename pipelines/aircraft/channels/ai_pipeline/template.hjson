@@ -1,6 +1,6 @@
 {
 	version: "6.0"
-	tenant:  demo
+	tenant: demo  
 	runtime: pyspark
 
   dag: [
@@ -8,7 +8,7 @@
             type: elastic_batch_input
             component: input
             settings: {
-                index: "source-aircraft-report-*"
+                index: "{{ es_index_input }}"
                 query:
                 {
                     size: 0
@@ -16,6 +16,17 @@
                     {
                         bool : {
                             must : [
+
+                                {
+
+                                    range : { 
+                                        @timestamp : { 
+                                            gte : "{{from}}", 
+                                            lt :  "{{day}}",
+                                           "format" : "yyyy.MM.dd"
+                                        } 
+                                    }
+                                }
                                 {exists : {
                                             field : sensor 
                                         } 
@@ -116,7 +127,7 @@
       component: output
       settings:
       {
-        index: aircraft-report
+        index: "{{es_index_output}}-{{day}}"
         es_cluster: es_search
         output_mode: append
       }
@@ -133,7 +144,7 @@
 		spark.additional.pex: mlflow_udf.pex
 		spark.pre_punchline_execution: nodes.mlflow_udf.udf_loading.mlflow_model_loading_pre_execution.MlflowModelLoadingPreExecution
 		spark.punch.mlflow.model.type: classification
-		spark.punch.mlflow.model.uri: /home/pierre/dev/projects/demos/forwarding/aircraft/RandomForestRegressorPipeline
+		spark.punch.mlflow.model.uri: /home/pierre/dev/projects/demos/forwarding/aircraft/ai_pipeline/RandomForestRegressorPipeline
 		spark.executorEnv.ARROW_PRE_0_15_IPC_FORMAT: 1
 
 	}

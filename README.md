@@ -31,6 +31,6 @@
 └── resources
 ```
 - dashboard : All Kibana resources (Index-pattern, vizualisation, dashboard)
-- forwarding : Data Flow configuration
+- pipelines : Data Flow configuration
 - generators : Data generators
 - resources : Additionnal resources
