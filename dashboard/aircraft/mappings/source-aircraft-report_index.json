@@ -1,5 +1,5 @@
 {
-  "source-aircraft-report-2020.11.25": {
+  "source-aircraft-report-*": {
     "aliases": {},
     "mappings": {
       "properties": {
