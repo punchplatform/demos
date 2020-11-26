@@ -152,9 +152,7 @@ def generate_random_shape_points(
 
 
 def generate_linear_aircraft_sensor_values(
-    aircraft_number: int, max_cycle_number: int, cycle_schedule_s: int, model_path: str
-) -> list():
-    regression_best_model = load_model(model_path)
+    aircraft_number: int, max_cycle_number: int, cycle_schedule_s: int) -> list():
     to_return = []
     meta = {"cycle": {"schedule": cycle_schedule_s}}
     all_aircraft_cycles = (max_cycle_number - 1) * np.random.random(aircraft_number) + 1
