@@ -32,7 +32,7 @@
       '''
       type: punchlet_node
       settings: {
-        punchlet_code: "{ date(\"yyyy.MM.dd\", \"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").on([logs][log][@timestamp]).into([tmp][date]); [logs][es_index] = [logs][log][fields][type]+\"-\"+[tmp][date];}"
+        punchlet_code: "{[logs][log][@timestamp] = [logs][log][event_timestamp]; date(\"yyyy.MM.dd\", \"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\").on([logs][log][@timestamp]).into([tmp][date]); [logs][es_index] = [logs][log][fields][type]+\"-\"+[tmp][date];}"
       }
       executors: 2
       subscribe: [

@@ -152,7 +152,8 @@ def generate_random_shape_points(
 
 
 def generate_linear_aircraft_sensor_values(
-    aircraft_number: int, max_cycle_number: int, cycle_schedule_s: int) -> list():
+    aircraft_number: int, max_cycle_number: int, cycle_schedule_s: int
+) -> list():
     to_return = []
     meta = {"cycle": {"schedule": cycle_schedule_s}}
     all_aircraft_cycles = (max_cycle_number - 1) * np.random.random(aircraft_number) + 1
@@ -177,9 +178,12 @@ def generate_linear_aircraft_sensor_values(
             current_record = copy.deepcopy(meta)
             current_record["aircraft"] = {}
             current_record["aircraft"]["id"] = str(current_aircraft_id)
-            current_record["@timestamp"] = timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z")
+            current_record["event_timestamp"] = timestamp.strftime(
+                "%Y-%m-%dT%H:%M:%S.000Z"
+            )
             current_record["cycle"]["number"] = cycle
             current_record["sensor"] = sensor
 
             to_return.append(current_record)
-        return to_return
+
+    return to_return
