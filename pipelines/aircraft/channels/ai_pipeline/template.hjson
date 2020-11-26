@@ -143,7 +143,7 @@
 	settings: {
 		spark.additional.pex: mlflow_udf.pex
 		spark.pre_punchline_execution: nodes.mlflow_udf.udf_loading.mlflow_model_loading_pre_execution.MlflowModelLoadingPreExecution
-		spark.punch.mlflow.model.type: classification
+		spark.punch.mlflow.model.type: regression
 		spark.punch.mlflow.model.uri: /home/pierre/dev/projects/demos/forwarding/aircraft/ai_pipeline/RandomForestRegressorPipeline
 		spark.executorEnv.ARROW_PRE_0_15_IPC_FORMAT: 1
 
