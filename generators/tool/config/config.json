@@ -5,10 +5,66 @@
                 {
                     "aircraft_number": 1000,
                     "max_cycle_number": 100,
-                    "cycle_schedule_s": 43200
+                    "cycle_schedule_s": 43200,
+                    "model_path": "/home/pierre/pp/pp-punch/packagings/punch-standalone/target/punch-standalone-6.2.0-SNAPSHOT-linux/external/punch-mlflow-app-6.2.0-SNAPSHOT/logs/artifacts/0/000ff617c6b54f8e825101e7e24b06a3/artifacts/RandomForestRegressorPipeline"
                 }
             ],
             "output_logs" : "/home/pierre/dev/projects/demos/generators/tool/output/aircraft_data.log"
+        },
+        "airspace" : {
+            "payload": [
+                {
+                "x_start": 2.294859,
+                "x_end": -0.081505,
+                "y_start": 48.817500,
+                "y_end" :51.447419,
+                "duration_h" : 1,
+                "frequency_s" : 60,
+                "aeronef_ID": "aeronef-1",
+                "shape" : "linear"
+                },
+                {
+                    "x_start": 2.294859,
+                    "x_end": 37.918436,
+                    "y_start": 48.817500,
+                    "y_end": 55.598280,
+                    "duration_h": 1,
+                    "frequency_s": 60,
+                    "aeronef_ID": "aeronef-2",
+                    "shape": "curvy"
+                },
+                {
+                    "x_end": -5.586516,
+                    "x_start": 37.918436,
+                    "y_end": 31.583570,
+                    "y_start": 55.598280,
+                    "duration_h": 2,
+                    "frequency_s": 60,
+                    "aeronef_ID": "aeronef-2",
+                    "shape": "linear"
+                },
+                {
+                    "x_end": -43.208402,
+                    "x_start": -9.175390,
+                    "y_end": -22.951721,
+                    "y_start": 38.752562,
+                    "duration_h": 1,
+                    "frequency_s": 60,
+                    "aeronef_ID": "aeronef-3",
+                    "shape": "curvy"
+                }
+            ],
+            "output_logs" : "/home/pierre/dev/projects/demos/generators/tool/output/airspace_data.log"
+        },
+        "radar" : {
+            "payload": [
+                {
+                    "sample_size_by_radar" : 1000,
+                    "radar_number" : 50,
+                    "frequency_s" : 60
+                }
+            ],
+            "output_logs" : "/home/pierre/dev/projects/demos/generators/tool/output/radar_data.log"
         }
     }
 }
