@@ -9,7 +9,7 @@ filebeat.inputs:
   json.keys_under_root: true
 
   paths:
-    - /home/pierre/dev/projects/demos/generators/tool/output/aircraft_data.log
+    - /data/aircraft_data.log
   fields:
     type: "source-aircraft-report" 
 
@@ -18,7 +18,7 @@ filebeat.inputs:
 
   enabled: true
   paths:
-    - /home/pierre/dev/projects/demos/generators/tool/output/airspace_data.log
+    - /data/airspace_data.log
   fields:
     type: "airspace-report" 
 
@@ -27,7 +27,7 @@ filebeat.inputs:
 
   enabled: true
   paths:
-    - /home/pierre/dev/projects/demos/generators/tool/output/radar_data.log
+    - /data/radar_data.log
   fields:
     type: "radar-report" 
 
