@@ -25,8 +25,9 @@
 ## Repo Structure :
 ```sh
 ├── dashboard
-├── forwarding
+├── pipelines
 ├── generators
+├── data
 ├── README.md
 └── resources
 ```

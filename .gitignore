@@ -3,3 +3,4 @@ generators/*/project/__pycache__
 generators/*/project/*/__pycache__
 generators/*/dist/*
 generators/*/output/*
+.idea
