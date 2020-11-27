@@ -1,5 +1,13 @@
-# python_project_starter_kit
-This is a python project starter kit
+# Dataset Generator Tool
 
+**This tool aims to provide a complete solution to generate and build your own dataset generator**
 
-> Pierre Dosne
+## How to build?
+
+- Build the scripts
+> make package name=tool
+- 
+
+## How to run?
+
+**IN PROGRESS**

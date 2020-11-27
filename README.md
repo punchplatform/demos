@@ -31,7 +31,7 @@
 ├── README.md
 └── resources
 ```
-- dashboard : All Kibana resources (Index-pattern, vizualisation, dashboard)
-- pipelines : Data Flow configuration
+- dashboard : All Kibana resources and mappings
+- pipelines : Punch data flow configuration
 - generators : Data generators
-- resources : Additionnal resources
+- resources : Documentation additionnal resources
