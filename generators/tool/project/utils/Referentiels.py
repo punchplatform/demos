@@ -27,6 +27,6 @@ def write_to_es(datas, index, nodes, port, bulk_size, login, password):
 if __name__ == "__main__":
 
     print("Push Referentiels")
-    datas = load_json_file("/home/pierre/datas/world_map.json")
+    datas = load_json_file("/data/world_map.json")
     datas[0]["transform"]["translate"][0] = float(datas[0]["transform"]["translate"][0])
     write_to_es(datas, "world-map", "localhost", "9200", 100, "", "")
