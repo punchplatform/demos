@@ -2,6 +2,7 @@ from project.generator.Aircraft import Aircraft
 from project.generator.Airspace import Airspace
 from project.generator.GeneratorI import GeneratorI
 from project.generator.Radar import Radar
+from project.generator.Usage import Usage
 
 
 class GeneratorFactory:
@@ -13,3 +14,5 @@ class GeneratorFactory:
             return Radar()
         elif generator_type == "aircraft":
             return Aircraft()
+        elif generator_type == "usage_monitoring":
+            return Usage()

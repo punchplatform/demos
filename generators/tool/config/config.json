@@ -1,5 +1,16 @@
 {
     "use_case" : {
+        "usage_monitoring" : {
+            "payload": [
+                {
+                    "iteration_number" :  15,
+                    "schedule_time_s" : 3600,
+                    "average_life_esperancy_s" : 10,
+                    "average_flow_rate" : 2
+                }
+            ],
+            "output_logs" : "/data/usage_data.log"
+        },
         "aircraft" : {
             "payload": [
                 {
