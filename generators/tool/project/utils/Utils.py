@@ -192,16 +192,24 @@ def generate_random_tool_user(iteration_number, schedule_time_s, average_life_es
     all_new_users = np.random.poisson(average_flow_rate, iteration_number)
     all_users = []
     to_return = []
+    http_code = [200,301, 302, 401, 403, 404, 500, 503, 504]
+    project_number = 10
+    average_request_number = 10
+    request_type_number = 10
+    average_request_duration = 1000
+    std_request_duration = 10
 
     for current_iteration in range(0, iteration_number):
 
         start_timestamp = datetime.datetime.utcnow()
         new_users = all_new_users[current_iteration]
+        projects_number = project_number * np.random.random(new_users)
 
         # Add new Users
         for i in range(0, new_users):
             current_user = {"@timestamp": start_timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
                             "user": {"id": str(uuid.uuid1())},
+                            "user": {"project": "project-{index}".format(index=str(int(projects_number[i])))},
                             "life": int(random.expovariate(1 / average_life_esperancy_s))}
             if current_user["life"] > 0:
                 all_users.append(current_user.copy())
@@ -212,9 +220,30 @@ def generate_random_tool_user(iteration_number, schedule_time_s, average_life_es
             user["life"] = user["life"] - 1
 
             if user["life"] > 0:
+
                 user["@timestamp"] = (datetime.datetime.strptime(user["@timestamp"],
                                                                  "%Y-%m-%dT%H:%M:%S.000Z") + datetime.timedelta(
                     seconds=schedule_time_s)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
-                to_return.append(user.copy())
+
+                request_number = np.random.poisson(average_request_number, 1)
+                step = request_number[0]/schedule_time_s
+                current_all_request_type = request_type_number * np.random.random(request_number)
+                current_all_http_codes = len(http_code) * np.random.random(request_number)
+                current_all_request_duration = np.random.normal(average_request_duration, std_request_duration, request_number)
+                current_all_timestamp = [(datetime.datetime.strptime(user["@timestamp"],
+                                                                 "%Y-%m-%dT%H:%M:%S.000Z") + datetime.timedelta(
+                    seconds=i*step)).strftime("%Y-%m-%dT%H:%M:%S.000Z") for i in range(0, request_number[0])]
+
+                for current_request_type, current_http_code, current_request_duration, current_timestamp in \
+                        zip(current_all_request_type, current_all_http_codes, current_all_request_duration, current_all_timestamp):
+                    current_user = user.copy()
+                    current_user["@timestamp"] = current_timestamp
+                    current_user["http"] = {}
+                    current_user["http"]["request"] = {}
+                    current_user["http"]["response"] = {}
+                    current_user["http"]["request"]["payload"] = "request-{number}".format(number=int(current_request_type))
+                    current_user["http"]["response"]["code"] = current_http_code
+                    current_user["http"]["response"]["duration"] = current_request_duration
+                    to_return.append(current_user)
 
     return to_return
