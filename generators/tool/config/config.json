@@ -1,5 +1,46 @@
 {
     "use_case" : {
+        "linear" : {
+            "payload" : [
+                {
+                    "schedule_time_s" : 3600,
+                    "sample_number" : 100,
+                     "x_start_value" : 0,
+                     "y_start_value" : 0,
+                     "x_end_value" : 1000,
+                     "y_end_value" : 100,
+                     "type" : "project"
+                },
+                {
+                    "schedule_time_s" : 3600,
+                    "sample_number" : 100,
+                     "x_start_value" : 0,
+                     "y_start_value" : 0,
+                     "x_end_value" : 100,
+                     "y_end_value" : 100,
+                     "type" : "module"
+                },
+                {
+                    "schedule_time_s" : 3600,
+                    "sample_number" : 100,
+                     "x_start_value" : 0,
+                     "y_start_value" : 0,
+                     "x_end_value" : 500,
+                     "y_end_value" : 100,
+                     "type" : "artifact"
+                },
+                {
+                    "schedule_time_s" : 3600,
+                    "sample_number" : 100,
+                     "x_start_value" : 0,
+                     "y_start_value" : 0,
+                     "x_end_value" : 750,
+                     "y_end_value" : 100,
+                     "type" : "links"
+                }
+            ],
+            "output_logs" : "/data/linear_data.log"
+        },
         "usage_monitoring" : {
             "payload": [
                 {

@@ -31,6 +31,25 @@ filebeat.inputs:
   fields:
     type: "radar-report" 
 
+- type: log
+  json.keys_under_root: true
+
+  enabled: true
+  paths:
+    - /data/usage_data.log
+  fields:
+    type: "usage-report" 
+
+- type: log
+  json.keys_under_root: true
+
+  enabled: true
+  paths:
+    - /data/linear_data.log
+  fields:
+    type: "corr-report" 
+
+
 # ================================== Outputs ===================================
 
 # Configure what output to use when sending the data collected by the beat.

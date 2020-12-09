@@ -192,11 +192,12 @@ def generate_random_tool_user(iteration_number, schedule_time_s, average_life_es
     all_new_users = np.random.poisson(average_flow_rate, iteration_number)
     all_users = []
     to_return = []
-    http_code = [200,301, 302, 401, 403, 404, 500, 503, 504]
+    http_code = [200, 301, 302, 401, 403, 404, 500, 503, 504]
     project_number = 10
+    tool_number = 10
     average_request_number = 10
     request_type_number = 10
-    average_request_duration = 1000
+    average_request_duration = 20000
     std_request_duration = 10
 
     for current_iteration in range(0, iteration_number):
@@ -207,9 +208,8 @@ def generate_random_tool_user(iteration_number, schedule_time_s, average_life_es
 
         # Add new Users
         for i in range(0, new_users):
-            current_user = {"@timestamp": start_timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-                            "user": {"id": str(uuid.uuid1())},
-                            "user": {"project": "project-{index}".format(index=str(int(projects_number[i])))},
+            current_user = {"event_timestamp": start_timestamp.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+                            "user": {"id": str(uuid.uuid1()), "project": "project-{index}".format(index=str(int(projects_number[i])))},
                             "life": int(random.expovariate(1 / average_life_esperancy_s))}
             if current_user["life"] > 0:
                 all_users.append(current_user.copy())
@@ -221,7 +221,7 @@ def generate_random_tool_user(iteration_number, schedule_time_s, average_life_es
 
             if user["life"] > 0:
 
-                user["@timestamp"] = (datetime.datetime.strptime(user["@timestamp"],
+                user["event_timestamp"] = (datetime.datetime.strptime(user["event_timestamp"],
                                                                  "%Y-%m-%dT%H:%M:%S.000Z") + datetime.timedelta(
                     seconds=schedule_time_s)).strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
@@ -229,21 +229,38 @@ def generate_random_tool_user(iteration_number, schedule_time_s, average_life_es
                 step = request_number[0]/schedule_time_s
                 current_all_request_type = request_type_number * np.random.random(request_number)
                 current_all_http_codes = len(http_code) * np.random.random(request_number)
+                current_all_project = tool_number * np.random.random(request_number)
                 current_all_request_duration = np.random.normal(average_request_duration, std_request_duration, request_number)
-                current_all_timestamp = [(datetime.datetime.strptime(user["@timestamp"],
+                current_all_timestamp = [(datetime.datetime.strptime(user["event_timestamp"],
                                                                  "%Y-%m-%dT%H:%M:%S.000Z") + datetime.timedelta(
                     seconds=i*step)).strftime("%Y-%m-%dT%H:%M:%S.000Z") for i in range(0, request_number[0])]
 
-                for current_request_type, current_http_code, current_request_duration, current_timestamp in \
-                        zip(current_all_request_type, current_all_http_codes, current_all_request_duration, current_all_timestamp):
+                for current_request_type, current_http_code, current_request_duration, current_timestamp, current_project in \
+                        zip(current_all_request_type, current_all_http_codes, current_all_request_duration, current_all_timestamp, current_all_project):
                     current_user = user.copy()
-                    current_user["@timestamp"] = current_timestamp
+                    current_user["event_timestamp"] = current_timestamp
                     current_user["http"] = {}
                     current_user["http"]["request"] = {}
                     current_user["http"]["response"] = {}
                     current_user["http"]["request"]["payload"] = "request-{number}".format(number=int(current_request_type))
-                    current_user["http"]["response"]["code"] = current_http_code
+                    current_user["http"]["response"]["code"] = http_code[int(current_http_code)]
                     current_user["http"]["response"]["duration"] = current_request_duration
+                    current_user["user"]["tool"] = "tool-{number}".format(number=int(current_project))
                     to_return.append(current_user)
+
+    return to_return
+
+
+def generate_linear_values(schedule_time_s, sample_number, x_start_value, x_end_value, y_start_value, y_end_value, type):
+    to_return = []
+    dependent = np.linspace(x_start_value, x_end_value, sample_number)
+    independent = np.linspace(y_start_value, y_end_value, sample_number)
+    start_timestamp = datetime.datetime.utcnow()
+    all_timestamp = [(start_timestamp + datetime.timedelta(
+        seconds=i * schedule_time_s)).strftime("%Y-%m-%dT%H:%M:%S.000Z") for i in range(0, sample_number)]
+
+    for dep, ind, timestamp in zip(dependent, independent, all_timestamp):
+        current_record = {"event_timestamp" : timestamp, "x" : dep, "y" : ind, "corr_type" : type}
+        to_return.append(current_record)
 
     return to_return
