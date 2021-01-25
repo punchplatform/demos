@@ -1,0 +1,28 @@
+{
+  if([request][body][size]) {
+
+	int size = [request][body][size];
+	[feedback][query_size] = size;
+
+	[feedback][prediction] = http("http://localhost:6060/invocations").header("Content-Type", "application/json").post().data(String.format("{\"columns\":[\"query_size\"], \"data\":[[%d]]}", size)).asTuple().getElement(0);	
+
+	if([feedback][prediction] == 1) {
+	
+		[allow] = false;
+  		[feedback][reason] = "Query would take too much time";
+	}
+	else {
+
+		[allow] = true;
+  		[feedback][reason] = "Validated query";
+	}
+
+  }
+
+  else {
+  	[allow] = true;
+  	[feedback][reason] = "No size specified, can t do any prediction";
+  }
+
+print([feedback]);
+}

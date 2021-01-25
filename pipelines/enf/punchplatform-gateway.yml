@@ -1,0 +1,93 @@
+# conf for standalone
+spring:
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  address: localhost
+  port: 4242
+
+punchplatform:
+  tenant: "mytenant"
+
+reporters:
+  elasticsearch:
+    - hosts:
+        - "localhost:9200"
+      index_name: "mytenant-gateway-logs"        
+
+channels:
+  enabled: true
+
+puncher:
+  enabled: true
+
+punchline:
+  enabled: true
+
+elasticsearch:
+  data_cluster:
+    cluster_id: "es_search"
+    hosts:
+      - "localhost:9200"
+    settings:
+      - "es.index.read.missing.as.empty: yes"
+      - "es.nodes.discovery: true"
+  metric_cluster:
+    cluster_id: "es_search"
+    hosts:
+      - "localhost:9200"
+    settings:
+      - "es.index.read.missing.as.empty: yes"
+      - "es.nodes.discovery: true"
+    index_name: "mytenant-metrics"
+
+forwarding:
+  enabled: true
+  punchlet: "file:///home/pierre/pp/pp-punch/packagings/punch-standalone/target/punch-standalone-6.1.0-SNAPSHOT-linux/external/punch-gateway-6.1.0-SNAPSHOT/conf/forwarding.punch"
+  reload : "0 * * * * *"
+
+services:
+  extraction:
+    enabled: true
+    formats:
+      - "csv"
+      - "json"
+
+resources:
+  doc_dir: /home/pierre/pp/pp-punch/packagings/punch-standalone/target/punch-standalone-6.1.0-SNAPSHOT-linux/doc/html
+  tmp_dir: "/tmp"
+  archives_dir: "/tmp/extractions"
+  manager:
+    enabled: true
+    timeout: 15000
+    metadata:
+      elasticsearch:
+        - hosts:
+            - "localhost:9200"
+          index_name: "resources-metadata"
+    data:
+      file:
+        - root_path: "/tmp/punchplatform/manager/resources"
+
+management:
+  health:
+    defaults:
+      enabled: false
+  endpoint:
+    health:
+      enabled: true
+    metrics:
+      enabled: true
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /management
+      exposure:
+        include: health,metrics
+

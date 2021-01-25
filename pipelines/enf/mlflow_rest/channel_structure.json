@@ -1,0 +1,19 @@
+{
+    "version": "6.0",
+    "start_by_tenant" : false,
+    "stop_by_tenant" : true,
+    "applications": [
+        {
+            "name": "mlflow_rest",
+            "runtime" : "shiva",
+            "command": "mlflow_api",
+            "args": [
+		    "-h", "localhost", "-p", "6060", "-m" ,"LogisticRegressionPipeline"
+            ],
+            "cluster": "local",
+            "shiva_runner_tags": [
+                "local"
+            ]
+        }
+    ]
+}

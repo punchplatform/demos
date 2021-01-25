@@ -1,0 +1,118 @@
+{
+    tenant: mytenant
+    version: "6.0"
+    runtime: pyspark
+    type: punchline
+    dag: [
+        {
+            type: elastic_batch_input
+            component: predictions
+            settings: {
+                index: mytenant-gateway-logs-*
+                es_cluster: es_search
+                nodes: [
+                    localhost
+                ]
+ 		   query: {
+		        bool: {
+		            must: [
+				{
+				  "exists": {
+			          "field": "feedback.feedback"
+				  }
+				}
+				{
+				  "exists": {
+			          "field": "punchlet.execution.result"
+				  }
+				}
+            			]
+        		}
+    		 }	 
+                output_columns: [
+                    {
+                        type: string
+                        field: punchlet.execution.result
+                        alias: prediction
+                    }
+                    {
+                        type: string
+                        field: feedback.feedback
+                        alias: expected
+                    }
+                ]
+            }
+            publish: [
+                {
+                    stream: data
+                }
+            ]
+        }
+    {
+      type: show
+      component: show
+      settings:
+      {
+        truncate: false
+      }
+      subscribe:
+      [
+        {
+          component: predictions
+          stream: data
+        }
+      ]
+    }
+
+    {
+      package: ai_monitoring_health
+      type: evaluation
+      component: ai_evaluation_metrics
+      settings:
+      {
+        prob_prediction_label: prediction
+        expected_class_label: expected
+        model_type: "true"
+      }
+      subscribe:
+      [
+        {
+          component: predictions
+          stream: data
+        }
+      ]
+      publish:
+      [
+        {
+          stream: data
+        }
+      ]
+    }
+    {
+      type: python_elastic_output
+      component: python_elastic_output
+      settings:
+      {
+        nodes:
+        [
+          localhost
+        ]
+        index: ai-models-evaluation
+        login: ""
+        password: ""
+      }
+      subscribe:
+      [
+        {
+          stream: data
+          component: ai_evaluation_metrics
+        }
+      ]
+    }
+    ]
+  settings:
+  {
+    spark.additional.pex: ai_monitoring_health.pex
+  }
+
+}
