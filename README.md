@@ -29,4 +29,22 @@
 - resources : Documentation additionnal resources
 
 ## How to deploy?
-## IN PROGRESS
+
+### Requirements :
+
+- Install a fresh Punch standalone >=6.1
+- Download a filebeat
+- git clone this repo
+- Start your punch standalone
+
+- export PUNCH_DEMO_DIR=<Path_to_your_demo_dir>
+- export PUNCHPLATFORM_CONF_DIR=<path_to_your_punch_conf_repo>
+- export PUNCHPLATFORM_BINARIES_DIR=$PUNCHPLATFORM_CONF_DIR/../external/punch-binaries-<version>
+
+### Run :
+> $PUNCH_DEMO_DIR/run.sh needs rights to create /data repo
+
+- ./run.sh
+- <Path_to_your_filebeat>/filebeat -e -c $PUNCH_DEMO_DIR/conf/filebeat.yml
+- channelctl -t <tenant> start
+-
