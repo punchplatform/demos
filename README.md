@@ -18,15 +18,13 @@
 
 ## Repo Structure :
 ```
-├── dashboard
-├── pipelines
+├── conf
 ├── generators
 ├── data
 ├── README.md
 └── resources
 ```
-- dashboard : All Kibana resources and mappings
-- pipelines : Punch data flow configuration
+- conf : Punch conf dir
 - generators : Data generators
 - resources : Documentation additionnal resources
 
