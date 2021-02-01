@@ -55,9 +55,4 @@ fi
 cp $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes/pyspark/target/* $PUNCHPLATFORM_BINARIES_DIR/extlib/pyspark
 echo "PUSH SOME DATA INTO ES"
 curl -H "Content-type: application/json" --data-binary @$PUNCH_DEMO_DIR/data/world_map.json -XPOST http://localhost:9200/world-map-import/_bulk?pretty
-echo "CREATE DATASETS"
-if [ ! -d /data ]
-then
-	mkdir /data
-fi
 echo "...Installation completed"
