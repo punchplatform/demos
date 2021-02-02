@@ -5,6 +5,6 @@ build:
 	@$(MAKE) -C nodes/mlflow_udf_load package name="mlflow_udf.pex"
 
 prepare: 
-	@ mkdir ./ target & cp ./nodes/*/dist/*.pex ./target
+	@ mkdir ./target & cp ./nodes/*/dist/*.pex ./target
 
 all: build prepare
