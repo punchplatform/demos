@@ -32,7 +32,7 @@ cp -r $PUNCH_DEMO_DIR/conf/resources/kibana/dashboards/* $PUNCHPLATFORM_CONF_DIR
 echo "COPY ES RESOURCES"
 cp -r $PUNCH_DEMO_DIR/conf/resources/elasticsearch/* $PUNCHPLATFORM_CONF_DIR/resources/elasticsearch/
 echo "COPY PYSPARK NODES"
-cp -r $PUNCH_DEMO_DIR/conf/resources/spark_custom_nodes/pyspark $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes/pyspark
+cp -r $PUNCH_DEMO_DIR/conf/resources/spark_custom_nodes/pyspark $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes
 echo "BUILD ALL PYSPARK NODES"
 make -C $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes/pyspark all
 echo "COPY PYSPARK NODES TO YOUR $PUNCHPLATFORM_BINARIES_DIR/extlib"
