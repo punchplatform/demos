@@ -34,7 +34,6 @@
 ### Requirements :
 
 - Install a fresh Punch standalone >=6.1
-- Download a filebeat
 - git clone this repo
 - Start your punch standalone
 
