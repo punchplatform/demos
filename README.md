@@ -47,4 +47,3 @@
 - ./run.sh
 - <Path_to_your_filebeat>/filebeat -e -c $PUNCH_DEMO_DIR/conf/filebeat.yml
 - channelctl -t <tenant> start
--
