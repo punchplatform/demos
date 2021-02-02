@@ -25,7 +25,8 @@
 └── resources
 ```
 - conf : Punch conf dir
-- generators : Data generators
+- generators : Dataset generator
+- data : Some mandatory data used by dashboards (ex : world-map)
 - resources : Documentation additionnal resources
 
 ## How to deploy?
@@ -44,7 +45,6 @@
 ### Run :
 > $PUNCH_DEMO_DIR/run.sh needs rights to create /data repo
 
-- ./run.sh
+- $PUNCH_DEMO_DIR/.run.sh
 - <Path_to_your_filebeat>/filebeat -e -c $PUNCH_DEMO_DIR/conf/filebeat.yml
 - channelctl -t <tenant> start
--
