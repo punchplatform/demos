@@ -4,5 +4,5 @@ generators/*/project/*/__pycache__
 generators/*/dist/*
 generators/*/output/*
 .idea
-generators/tool/.idea/aircraft.iml
-generators/tool/.idea/misc.xml
+generators/tool/.idea/
+generators/tool/.idea/
