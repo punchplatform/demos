@@ -1,8 +1,12 @@
 generators/*/.venv/*
-generators/*/project/__pycache__
-generators/*/project/*/__pycache__
+generators/*/project/__pycache__/
+generators/*/project/*/__pycache__/
 generators/*/dist/*
 generators/*/output/*
 .idea
 generators/tool/.idea/
 generators/tool/.idea/
+conf/resources/spark_custom_nodes/pyspark/nodes/*/.venv/
+conf/resources/spark_custom_nodes/pyspark/nodes/*/dist/
+conf/resources/spark_custom_nodes/pyspark/target/
+.python-version
