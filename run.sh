@@ -16,12 +16,12 @@ else
 	echo "$PUNCHPLATFORM_CONF_DIR"
 fi
 
-if [ -z "$PUNCHPLATFORM_BINARIES_DIR" ] 
+if [ -z "$PUNCHPLATFORM_INSTALL_DIR" ] 
 then
-	echo "PUNCHPLATFORM_BINARIES_DIR must be set"
+	echo "PUNCHPLATFORM_INSTALL_DIR must be set"
 	exit 1
 else
-	echo "$PUNCHPLATFORM_BINARIES_DIR"
+	echo "$PUNCHPLATFORM_INSTALL_DIR"
 fi
 
 echo "Installation in progress..."
@@ -35,12 +35,12 @@ echo "COPY PYSPARK NODES"
 cp -r $PUNCH_DEMO_DIR/conf/resources/spark_custom_nodes/pyspark $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes
 echo "BUILD ALL PYSPARK NODES"
 make -C $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes/pyspark all
-echo "COPY PYSPARK NODES TO YOUR $PUNCHPLATFORM_BINARIES_DIR/extlib"
-if [ ! -d $PUNCHPLATFORM_BINARIES_DIR/extlib/pyspark ]
+echo "COPY PYSPARK NODES TO YOUR $PUNCHPLATFORM_INSTALL_DIR/extlib"
+if [ ! -d $PUNCHPLATFORM_INSTALL_DIR/extlib/pyspark ]
 then
-	mkdir -p $PUNCHPLATFORM_BINARIES_DIR/extlib/pyspark
+	mkdir -p $PUNCHPLATFORM_INSTALL_DIR/extlib/pyspark
 fi
-cp $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes/pyspark/target/* $PUNCHPLATFORM_BINARIES_DIR/extlib/pyspark
+cp $PUNCHPLATFORM_CONF_DIR/resources/spark_custom_nodes/pyspark/target/* $PUNCHPLATFORM_INSTALL_DIR/extlib/pyspark
 echo "IMPORT ALL DASHBOARDS"
 punchplatform-setup-kibana.sh --import
 echo "IMPORT ES TEMPLATES"
