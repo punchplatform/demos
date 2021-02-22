@@ -39,7 +39,9 @@
                      "type" : "links"
                 }
             ],
-            "output_logs" : "/data/linear_data.log"
+            "output_logs" : "/data/linear_data.log",
+            "module" : "project.generator.LinearValues",
+            "class" : "LinearValues"
         },
         "usage_monitoring" : {
             "payload": [
@@ -50,7 +52,9 @@
                     "average_flow_rate" : 2
                 }
             ],
-            "output_logs" : "/data/usage_data.log"
+            "output_logs" : "/data/usage_data.log",
+            "module" : "project.generator.Usage",
+            "class" : "Usage"
         },
         "aircraft" : {
             "payload": [
@@ -60,7 +64,9 @@
                     "cycle_schedule_s": 43200
                 }
             ],
-            "output_logs" : "/data/aircraft_data.log"
+            "output_logs" : "/data/aircraft_data.log",
+            "module" : "project.generator.Aircraft",
+            "class" : "Aircraft"
         },
         "airspace" : {
             "payload": [
@@ -105,7 +111,9 @@
                     "shape": "curvy"
                 }
             ],
-            "output_logs" : "/data/airspace_data.log"
+            "output_logs" : "/data/airspace_data.log",
+            "module" : "project.generator.Airspace",
+            "class" : "Airspace"
         },
         "radar" : {
             "payload": [
@@ -115,7 +123,9 @@
                     "frequency_s" : 60
                 }
             ],
-            "output_logs" : "/data/radar_data.log"
+            "output_logs" : "/data/radar_data.log",
+            "module" : "project.generator.Radar",
+            "class" : "Radar"
         }
     }
 }
