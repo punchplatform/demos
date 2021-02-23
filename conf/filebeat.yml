@@ -49,6 +49,15 @@ filebeat.inputs:
   fields:
     type: "corr-report" 
 
+- type: log
+  json.keys_under_root: true
+
+  enabled: true
+  paths:
+    - /data/timeseries_data.log
+  fields:
+    type: "licensing-report" 
+
 
 # ================================== Outputs ===================================
 
