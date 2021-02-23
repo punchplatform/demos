@@ -1,5 +1,19 @@
 {
     "use_case" : {
+        "timeseries" : {
+            "payload" : [
+                {
+                    "past_weeks": 12,
+                    "min_count_user" :  2,
+                    "max_count_user" :  25,
+                    "projects" :  ["ICS-R2021"],
+                    "tools" : ["Jira", "Bitbucket"]
+                }
+            ],
+            "output_logs" : "/data/timeseries_data.log",
+            "module" : "project.generator.LicenceUsage",
+            "class" : "LicenceUsage"
+        },
         "linear" : {
             "payload" : [
                 {
