@@ -14,7 +14,6 @@
 #  Refer to the License for the specific language governing permissions and limitations
 #  under the License.
 
-from punchline_python.core.udf_registration import UdfRegistration
 from pyspark.sql.types import StringType
 from pyspark.sql.types import DoubleType
 from pyspark.sql.session import SparkSession
