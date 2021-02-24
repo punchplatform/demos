@@ -1,0 +1,129 @@
+{
+	version: "6.0"
+	tenant:  demo
+	runtime: pyspark
+
+  dag: [
+    {
+      type: elastic_input
+      component: input
+      settings:
+      {
+        index: licensing-report*
+	aggregation: true
+        query:
+        {
+  "size": 0, 
+  "aggs": {
+    "week": {
+      "date_histogram": {
+        "field": "event_timestamp",
+        "interval": "week"
+      },
+      "aggs": {
+        "user_number": {
+          "cardinality": {
+            "field": "user.keyword"
+          }
+        }
+      }
+    }
+  }
+
+        }
+      }
+      publish:
+      [
+        {
+          stream: data
+        }
+      ]
+    }
+            {
+                type: sql
+                component: sql
+                settings: {
+                    statement_list: [
+                    {
+                        output_table_name: flat
+                        statement: SELECT explode(*) from input_data
+                    }
+                    {
+                        output_table_name: data
+                        statement: SELECT flat.col.user_number.value as `aggregation.cardinality.user`, flat.col.key_as_string as event_timestamp from flat
+                    }
+                    ]
+                }
+                subscribe: [
+                    {
+                        component: input
+                        stream: data
+                    }
+                ]
+                publish: [
+                    { 
+                        stream: data
+                    }
+                ]
+            }
+    {
+
+	package: nodes.my_use_case.my_node
+        type: python_prediction
+        component: prediction
+        settings: {
+		decoration : ["event_timestamp"]
+		inputs : ["aggregation.cardinality.user"]
+		tool : jira
+		project : ICS-R2020
+		model_uri : models:/timeseriesforecasting/production
+        }
+        subscribe: [
+            {
+                component: sql
+                stream: data
+            }
+        ]
+                publish: [
+                    { 
+                        stream: data
+                    }
+                ]
+    }
+    {
+	package: nodes.my_use_case.my_presentation
+        type: presentation
+        component: final_presentation
+        settings: {
+        }
+        subscribe: [
+            {
+                component: prediction
+                stream: data
+            }
+	]
+                publish: [
+                    {
+                        stream: data
+                    }
+                ]
+    }
+    {
+        type: python_show
+        component: show
+        settings: {
+        }
+        subscribe: [
+            {
+                component: final_presentation
+                stream: data
+            }
+        ]
+    }
+
+  ]
+	settings: {
+		spark.additional.pex:python_mlflow_prediction.pex
+		spark.executorEnv.MLFLOW_TRACKING_URI : http://localhost:5000
+	}
+}
