@@ -30,7 +30,7 @@
 - resources : Documentation additionnal resources
 ## Data Flow :
 
-![alt text](resources/data_flow_pipeline.jpg)
+![alt text](resources/Data_flow_architecture.png)
 
 ## How to deploy?
 
