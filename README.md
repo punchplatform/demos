@@ -28,6 +28,9 @@
 - generators : Dataset generator
 - data : Some mandatory data used by dashboards (ex : world-map)
 - resources : Documentation additionnal resources
+## Data Flow :
+
+![alt text](data_flow_pipeline.jpg)
 
 ## How to deploy?
 
