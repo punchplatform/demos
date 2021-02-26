@@ -50,7 +50,7 @@
                     }
                     {
                         output_table_name: data
-                        statement: SELECT flat.col.user_number.value as `aggregation.cardinality.user`, flat.col.key_as_string as event_timestamp from flat
+                        statement: SELECT flat.col.user_number.value as `aggregation.cardinality.user`, date_format(to_timestamp(CAST(to_unix_timestamp(flat.col.key_as_string, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'') + 86400 AS LONG)), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'')  as event_timestamp, "ICS-R2020" as project, "Jira" as tool from flat
                     }
                     ]
                 }
@@ -72,11 +72,11 @@
         type: python_prediction
         component: prediction
         settings: {
-		decoration : ["event_timestamp"]
+		decoration : ["event_timestamp", "project", "tool"]
 		inputs : ["aggregation.cardinality.user"]
-		tool : jira
-		project : ICS-R2020
-		model_uri : models:/timeseriesforecasting/production
+		model_uri : models:/ICS-R2020-SE_jiratcm/production
+		mlflow_host : localhost
+		mlflow_port : 5000
         }
         subscribe: [
             {
@@ -91,7 +91,7 @@
                 ]
     }
     {
-	package: nodes.my_use_case.my_presentation
+	package: nodes.my_use_case.my_node
         type: presentation
         component: final_presentation
         settings: {
@@ -109,21 +109,27 @@
                 ]
     }
     {
-        type: python_show
-        component: show
-        settings: {
-        }
-        subscribe: [
-            {
-                component: final_presentation
-                stream: data
-            }
-        ]
-    }
+      type: python_elastic_output
+      component: python_elastic_output
+      settings:
+      {
+                nodes:  ["localhost"]
+                port : 9200 
+                index: "licensing-prediction-report"
+		login: ""
+		password: "" 
 
+      }
+      subscribe:
+      [
+        {
+          stream: data
+          component: final_presentation
+        }
+      ]
+    }
   ]
 	settings: {
 		spark.additional.pex:python_mlflow_prediction.pex
-		spark.executorEnv.MLFLOW_TRACKING_URI : http://localhost:5000
 	}
 }
