@@ -1,0 +1,14 @@
+# From example_rules/example_frequency.yaml
+es_host: localhost
+es_port: 9200
+name: AI Model Evaluation Rule
+index: licence-evaluation
+type: frequency
+num_events: 1
+timeframe:
+  hours: 1
+filter: []
+
+alert:
+  - command
+command: ["echo", "Alert!!!"]
