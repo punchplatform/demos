@@ -1,0 +1,149 @@
+{
+	version: "6.0"
+	tenant:  demo
+	runtime: pyspark
+
+  dag: [
+    {
+      type: elastic_input
+      component: input_real
+      settings:
+      {
+        index: licensing-report*
+	aggregation: true
+	hits_hits: false
+        query:
+        {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "event_timestamp": {
+              "gte": "now/w",
+              "lte": "now+1w/w"
+            }
+          }
+        }
+      ]
+    }
+  }, 
+  "size": 0,
+  "aggs": {
+    "weekly": {
+      "date_histogram": {
+        "field": "event_timestamp",
+        "interval": "week"
+      },
+      "aggs": {
+        "unique_count": {
+          "cardinality": {
+            "field": "user.keyword"
+          }
+        }
+      }
+    }
+  }
+        }
+      }
+      publish:
+      [
+        {
+          stream: data
+        }
+      ]
+    }
+    {
+      type: elastic_input
+      component: input_prediction
+      settings:
+      {
+        index: licensing-prediction-report*
+	aggregation: false
+	hits_hits: true
+        query:
+        {
+  "query": {
+    "match_all": {}
+  },
+  "size": 1,
+  "sort": [
+    {
+      "event_timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+  "size": 0, 
+  "aggs": {
+        }
+
+        }
+      }
+      publish:
+      [
+        {
+          stream: data
+        }
+      ]
+    }
+            {
+                type: sql
+                component: sql
+                settings: {
+                    statement_list: [
+                    {
+                        output_table_name: predictions_cleaned
+                        statement: SELECT prediction, event_timestamp, meta FROM input_prediction_data
+                    }
+                    {
+                        output_table_name: reals_cleaned
+                        statement: SELECT col.key_as_string as event_timestamp, col.unique_count.value as real FROM (SELECT explode(buckets)  FROM input_real_data) 
+                    }
+                    {
+                        output_table_name: join
+                        statement: SELECT pc.event_timestamp, pc.prediction, rc.real, pc.meta FROM predictions_cleaned as pc LEFT JOIN reals_cleaned as rc ON pc.event_timestamp = rc.event_timestamp
+                    }
+                    {
+                        output_table_name: output
+                        statement: SELECT event_timestamp, named_struct("mse", sqrt(pow(prediction - real, 2))) as metrics, meta, uuid() as id FROM join
+                    }
+                    ]
+                }
+                subscribe: [
+                    {
+                        component: input_prediction
+                        stream: data
+                    }
+                    {
+                        component: input_real
+                        stream: data
+                    }
+                ]
+                publish: [
+                    { 
+                        stream: output
+                    }
+                ]
+            }
+    {
+      type: elastic_batch_output
+      component: output
+      settings:
+      {
+        index: licence-evaluation
+        es_cluster: es_search
+        id_column: id
+      }
+      subscribe:
+      [
+        {
+          component: sql
+          stream: output
+        }
+      ]
+    }
+  ]
+	settings: {
+	}
+}
