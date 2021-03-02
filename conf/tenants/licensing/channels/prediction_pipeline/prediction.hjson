@@ -13,6 +13,20 @@
 	aggregation: true
         query:
         {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "event_timestamp": {
+              "gte": "now-7w/w",
+              "lte": "now/w"
+            }
+          }
+        }
+      ]
+    }
+  },
   "size": 0, 
   "aggs": {
     "week": {
@@ -50,7 +64,7 @@
                     }
                     {
                         output_table_name: data
-                        statement: SELECT flat.col.user_number.value as `aggregation.cardinality.user`, date_format(to_timestamp(CAST(to_unix_timestamp(flat.col.key_as_string, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'') + 86400 AS LONG)), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'')  as event_timestamp, "ICS-R2020" as project, "Jira" as tool from flat
+                        statement: SELECT flat.col.user_number.value as `aggregation.cardinality.user`, date_format(to_timestamp(CAST(to_unix_timestamp(flat.col.key_as_string, 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'') + 604800 AS LONG)), 'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'')  as event_timestamp, "ICS-R2020" as project, "Jira" as tool from flat
                     }
                     ]
                 }
@@ -74,7 +88,8 @@
         settings: {
 		decoration : ["event_timestamp", "project", "tool"]
 		inputs : ["aggregation.cardinality.user"]
-		model_uri : models:/ICS-R2020-SE_jiratcm/production
+		model_registry_id: ICS-R2020-SE_jiratcm
+		model_registry_stage : production
 		mlflow_host : localhost
 		mlflow_port : 5000
         }
