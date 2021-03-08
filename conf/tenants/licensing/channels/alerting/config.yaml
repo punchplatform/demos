@@ -2,8 +2,8 @@ es_host: localhost
 es_port: 9200
 writeback_index: elastalert
 run_every:
-  minutes: 2
+  seconds: 30
 buffer_time:
-  minutes: 1
+  days: 7
 rules_folder: examples
 

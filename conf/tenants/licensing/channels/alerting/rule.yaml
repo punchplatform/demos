@@ -1,14 +1,27 @@
 # From example_rules/example_frequency.yaml
 es_host: localhost
 es_port: 9200
-name: AI Model Evaluation Rule
-index: licence-evaluation
+name: "AI Model Evaluation Rule"
+index: licence-evaluation 
+timestamp_field: event_timestamp
+
 type: frequency
 num_events: 1
 timeframe:
-  hours: 1
-filter: []
+  days: 7
+scan_entire_timeframe: true
+  
+filter:
+- range:
+    metrics.mse:
+      from: 10
+
+realert: 
+  minutes: 0
 
 alert:
-  - command
-command: ["echo", "Alert!!!"]
+  - jira:
+        jira_server: https://punchplatformfactory.atlassian.net
+        jira_account_file: /home/pierre/dev/projects/demos/conf/tenants/licensing/channels/alerting/web_credentials.yaml
+        jira_project: "TIAD"
+        jira_issuetype: "Support"
