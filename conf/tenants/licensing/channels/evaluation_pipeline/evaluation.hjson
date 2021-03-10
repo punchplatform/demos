@@ -101,12 +101,8 @@
                         statement: SELECT col.key_as_string as event_timestamp, col.unique_count.value as real FROM (SELECT explode(buckets)  FROM input_real_data) 
                     }
                     {
-                        output_table_name: join
-                        statement: SELECT pc.event_timestamp, pc.prediction, rc.real, pc.meta FROM predictions_cleaned as pc LEFT JOIN reals_cleaned as rc ON pc.event_timestamp = rc.event_timestamp
-                    }
-                    {
-                        output_table_name: output
-                        statement: SELECT event_timestamp, named_struct("mse", sqrt(pow(prediction - real, 2))) as metrics, meta, uuid() as id FROM join
+                        output_table_name: data
+                        statement: SELECT pc.event_timestamp, pc.prediction, rc.real, pc.meta.* FROM predictions_cleaned as pc LEFT JOIN reals_cleaned as rc ON pc.event_timestamp = rc.event_timestamp
                     }
                     ]
                 }
@@ -122,28 +118,74 @@
                 ]
                 publish: [
                     { 
-                        stream: output
+                        stream: data
                     }
                 ]
             }
     {
-      type: elastic_batch_output
-      component: output
+
+	package: nodes.my_use_case.my_node
+        type: python_evaluation
+        component: evaluation
+        settings: {
+		evaluation_python_modules : ["sklearn.metrics", "sklearn.metrics"]
+		evaluation_python_class : ["mean_absolute_error", "mean_squared_error"]
+		dataset_predicted_target_column : "prediction"
+		dataset_real_target_column : "real"
+		dataset_decoration_column : ["creation_timestamp", "current_stage", "name", "source", "run_id", "version"]
+        }
+        subscribe: [
+            {
+                component: sql
+                stream: data
+            }
+        ]
+                publish: [
+                    { 
+                        stream: data
+                    }
+                ]
+    }
+    {
+	package: nodes.my_use_case.my_node
+        type: presentation
+        component: final_presentation
+        settings: {
+        }
+        subscribe: [
+            {
+                component: evaluation
+                stream: data
+            }
+	]
+                publish: [
+                    {
+                        stream: data
+                    }
+                ]
+    }
+    {
+      type: python_elastic_output
+      component: python_elastic_output
       settings:
       {
-        index: licence-evaluation
-        es_cluster: es_search
-        id_column: id
+                nodes:  ["localhost"]
+                port : 9200 
+                index: "licence-evaluation"
+		login: ""
+		password: "" 
+
       }
       subscribe:
       [
         {
-          component: sql
-          stream: output
+          stream: data
+          component: final_presentation
         }
       ]
     }
   ]
 	settings: {
+		spark.additional.pex:python_mlflow_prediction.pex
 	}
 }
