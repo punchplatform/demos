@@ -38,7 +38,7 @@ class MlflowModelLoadingPreExecution(object):
         model_registry_stage = SparkConf().get("spark.punch.mlflow.model.registry.stage")
         mlflow_host = SparkConf().get("spark.punch.mlflow.host")
         mlflow_port = SparkConf().get("spark.punch.mlflow.port")
-        model_uri = "models:/{model}/{state}".format(model=model_registry_id, state=cmodel_registry_stage)
+        model_uri = "models:/{model}/{state}".format(model=model_registry_id, state=model_registry_stage)
         # Test output expected type
         if(data_type == 'regression'):
             data_type = DoubleType()
