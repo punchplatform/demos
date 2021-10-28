@@ -15,7 +15,7 @@
       ],
       "cluster": "common",
       "shiva_runner_tags": [
-        "local"
+        "common"
       ],
         "resources": [
 		"plan.hjson", "template.hjson"

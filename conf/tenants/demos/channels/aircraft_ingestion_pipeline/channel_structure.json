@@ -8,7 +8,7 @@
             "runtime" : "shiva",
             "command" : "punchlinectl",
             "args": [ "start", "--punchline", "ingestion.hjson" ],
-            "shiva_runner_tags": [ "local" ],
+            "shiva_runner_tags": [ "common" ],
             "cluster": "common",
             "reload_action": "kill_then_start"
         }

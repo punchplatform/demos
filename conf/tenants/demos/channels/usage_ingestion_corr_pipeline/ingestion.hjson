@@ -11,7 +11,7 @@
         '''  
         type :"kafka_input",
         settings : {
-          brokers : "common",
+          brokers : "local",
           topic : "corr-report",
           start_offset_strategy : "last_committed",
             value_codec: {

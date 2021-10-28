@@ -62,7 +62,7 @@ output.kafka:
   enabled: true
 
   # Params to be resolved
-  hosts: ["demo2:9092"]
+  hosts: ["demo1:9092"]
   ssl.certificate_authorities: ["/home/punchplatform/.secrets/fullchain.crt"]
   ssl.certificate: "/home/punchplatform/.secrets/server.crt"
   ssl.key: "/home/punchplatform/.secrets/server.pem"

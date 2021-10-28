@@ -16,3 +16,30 @@ applications:
     reload_action: kill_then_start
     apply_resolver_on:
       - filebeat.yml
+
+resources:
+  - type: kafka_topic
+    cluster: local
+    name: source-aircraft-report
+    partitions: 1
+    replication_factor: 1
+  - type: kafka_topic
+    cluster: local
+    name: airspace-report
+    partitions: 1
+    replication_factor: 1
+  - type: kafka_topic
+    cluster: local
+    name: radar-report
+    partitions: 1
+    replication_factor: 1
+  - type: kafka_topic
+    cluster: local
+    name: usage-report
+    partitions: 1
+    replication_factor: 1
+  - type: kafka_topic
+    cluster: local
+    name: corr-report
+    partitions: 1
+    replication_factor: 1

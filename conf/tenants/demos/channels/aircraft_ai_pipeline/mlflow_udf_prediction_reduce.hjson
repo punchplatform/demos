@@ -2,6 +2,7 @@
 	version: "6.0"
 	tenant:  demo
 	runtime: pyspark
+    channel: aircraft_ai_pipeline
 
   dag: [
         {
