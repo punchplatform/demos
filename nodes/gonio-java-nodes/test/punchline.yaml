@@ -1,0 +1,52 @@
+---
+apiVersion: punchline.punchplatform.io/v2
+kind: BatchPunchline
+metadata:
+  name: custom-nodes-java
+spec:
+  containers:
+    applicationContainer:
+      image: ghcr.io/punchplatform/punchline-java:8.1-dev
+    resourcesInitContainer:
+      image: ghcr.io/punchplatform/resourcectl:8.1-dev
+      resourcesProviderUrl: http://artifacts-server.punch-artifacts:4245
+  dependencies:
+    - additional-jar:io.github.starter:punchline-java-starter-kit:1.0.0
+  dag:
+    - id: input
+      kind: source
+      type: io.github.starter.punchline.java.CustomSource
+      settings:
+        print: true
+      out:
+        - id: middle
+          table: logs
+          columns:
+            - name: row1
+              type: string
+            - name: row2
+              type: string
+            - name: row3
+              type: string
+
+    - id: middle
+      kind: function
+      type: io.github.starter.punchline.java.CustomFunction
+      settings:
+        print: true
+      out:
+        - id: output
+          table: logs
+          columns:
+            - name: row1
+              type: string
+            - name: row2
+              type: string
+            - name: row3
+              type: string
+
+    - id: output
+      kind: sink
+      type: io.github.starter.punchline.java.CustomSink
+      settings:
+        print: true
